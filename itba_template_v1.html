@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movilidad Internacional - ITBA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #0056b3; 
+            --color-secondary: #008EBA; 
+            --color-accent: #17a2b8;
+            --color-background: #f8f9fa; 
+            --color-text: #333; 
+            --color-text-light: #6c757d;
+            --transition: all 0.3s ease;
+            --color-menu-1: #0a2472; 
+            --color-menu-2: #1e3a8a; 
+            --color-menu-3: #374151;
+            --color-menu-4: #4b5563; 
+            --color-menu-5: #6b7280; 
+            --color-menu-6: #4a5568;
+            --color-menu-7: #374151; 
+            --color-menu-8: #1f2937; 
+            --color-menu-9: #111827; 
+            --color-menu-10: #000000;
+        }
+        
+        html, body { overflow-x: hidden; max-width: 100%; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Libre Franklin', sans-serif; max-width: 100%; }
+        body { line-height: 1.6; color: var(--color-text); background-color: var(--color-background); font-weight: 400; width: 100%; }
+        
+        h1, h2, h3, h4, h5, h6 { font-weight: 700; }
+        .font-800 { font-weight: 800; }
+        
+        /* Header y Menu - Mantenido igual */
+        .logo-container { display: flex; justify-content: flex-start; align-items: center; padding: 1.5rem 5%; background-color: black; box-shadow: 0 2px 10px rgba(0,0,0,0.05); width: 100%; }
+        .logo { height: 35px; transition: var(--transition); filter: brightness(0) invert(1); max-width: 200px; }
+        .logo:hover { transform: scale(1.05); }
+        
+        .main-menu-container { width: 100%; background-color: transparent; margin-top: 0; overflow: visible; position: relative; z-index: 100; }
+        .main-menu { display: flex; width: 100%; height: auto; align-items: stretch; overflow: visible; position: relative; z-index: 100; flex-wrap: nowrap; }
+        .main-menu-item { flex: 1; display: flex; align-items: stretch; height: auto; position: relative; overflow: visible; min-width: 0; z-index: 100; }
+        
+        .main-menu-item > a {
+            display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+            height: 100%; width: 100%; text-decoration: none; color: #ffffff; font-weight: 700;
+            text-align: left; padding: 1.5rem 1rem; transition: var(--transition);
+            position: relative; z-index: 101; min-height: 120px; overflow: hidden;
+        }
+        
+        .menu-title { font-size: 0.9rem; margin-bottom: 0.5rem; position: relative; z-index: 102; line-height: 1.1; width: 100%; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
+        .menu-title-line1, .menu-title-line2 { display: block; }
+        .menu-title-line1 { margin-bottom: 0.2rem; }
+        
+        .menu-title::after {
+            content: ''; position: absolute; bottom: -8px; left: 0; width: 100%;
+            height: 2px; background-color: rgba(255, 255, 255, 0.4); transition: var(--transition);
+        }
+        
+        .menu-subtitle {font-size: 0.6rem; font-weight: 400; letter-spacing: 1.3px; text-transform: uppercase; opacity: 0.9; line-height: 1.3; position: relative; z-index: 102; width: 100%; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
+        
+        .main-menu-item:nth-child(1) > a { background-color: var(--color-menu-1); }
+        .main-menu-item:nth-child(2) > a { background-color: var(--color-menu-2); }
+        .main-menu-item:nth-child(3) > a { background-color: var(--color-menu-3); }
+        .main-menu-item:nth-child(4) > a { background-color: var(--color-menu-4); }
+        .main-menu-item:nth-child(5) > a { background-color: var(--color-menu-5); }
+        .main-menu-item:nth-child(6) > a { background-color: var(--color-menu-6); }
+        .main-menu-item:nth-child(7) > a { background-color: var(--color-menu-7); }
+        .main-menu-item:nth-child(8) > a { background-color: var(--color-menu-8); }
+        .main-menu-item:nth-child(9) > a { background-color: var(--color-menu-9); }
+        .main-menu-item:nth-child(10) > a { background-color: var(--color-menu-10); }
+        
+        .main-menu-item > a::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.1); opacity: 0; transition: var(--transition); z-index: 1; }
+        .main-menu-item > a:hover::before { opacity: 1; }
+        .main-menu-item > a:hover { transform: translateY(-3px); }
+        .main-menu-item > a:hover .menu-title::after { width: 60px; }
+        
+        .mega-submenu {
+            position: absolute; top: 100%; left: 0; width: 650px; max-width: calc(100vw - 2rem);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.1);
+            opacity: 0; visibility: hidden; transform: translateY(10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 9999; padding: 1.5rem;
+            overflow: hidden; border: 1px solid rgba(0, 86, 179, 0.1);
+            backdrop-filter: blur(10px); margin-left: 5%;
+        }
+        
+        .main-menu-item:hover .mega-submenu, .main-menu-item:focus-within .mega-submenu { opacity: 1; visibility: visible; transform: translateY(0); display: block; }
+        
+        .mega-submenu-content { display: grid; grid-template-columns: 1fr; gap: 0.8rem; width: 100%; }
+        .mega-submenu-section { margin-bottom: 1rem; }
+        .mega-submenu-section:last-child { margin-bottom: 0; }
+        
+        .mega-submenu-section-title {
+            font-size: 0.9rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--color-primary);
+            text-transform: uppercase; letter-spacing: 1px; position: relative; padding-bottom: 0.5rem;
+        }
+        .mega-submenu-section-title::after { content: ''; position: absolute; bottom: 0; left: 0; width: 30px; height: 2px; background: linear-gradient(90deg, var(--color-primary), var(--color-accent)); }
+        
+        .mega-submenu-item {
+            display: block; padding: 0.4rem 0.6rem; color: #2d3748; text-decoration: none;
+            font-size: 0.85rem; font-weight: 500; transition: all 0.2s ease;
+            position: relative; margin-bottom: 0.1rem;
+        }
+        .mega-submenu-item:hover { color: var(--color-primary); background: linear-gradient(135deg, rgba(0, 86, 179, 0.08), rgba(23, 162, 184, 0.05)); transform: translateX(4px); box-shadow: 0 2px 8px rgba(0, 86, 179, 0.1); }
+        .mega-submenu-item::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 0; height: 100%; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); transition: width 0.2s ease; }
+        .mega-submenu-item:hover::before { width: 3px; }
+
+        /* Secciones principales - Diseñadas para Elementor */
+        .elementor-section {
+            width: 100%;
+            position: relative;
+        }
+
+        .elementor-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .elementor-row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .elementor-column {
+            flex: 1;
+            padding: 0 15px;
+        }
+
+        /* Hero Section con Scroll de Noticias */
+        .hero-news-section {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            padding: 60px 0;
+            color: white;
+        }
+
+        .news-scroll-container {
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .news-scroll-wrapper {
+            display: flex;
+            animation: scroll-horizontal 30s linear infinite;
+            gap: 30px;
+        }
+
+        .news-scroll-item {
+            flex: 0 0 300px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .news-scroll-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .news-scroll-text {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        @keyframes scroll-horizontal {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .welcome-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            text-align: justify;
+        }
+
+        /* Program Cards Grid */
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .program-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+        }
+
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            border-color: var(--color-primary);
+        }
+
+        .program-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+        }
+
+        .program-subtitle {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .program-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--color-text);
+        }
+
+        /* Content Sections */
+        .section-content {
+            display: none;
+            margin-top: 40px;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Subsections */
+        .subsection {
+            margin-bottom: 40px;
+        }
+
+        .subsection-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--color-accent);
+        }
+
+        /* Collapsible Elements */
+        .collapsible-header {
+            background: var(--color-background);
+            padding: 20px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            transition: var(--transition);
+            border: 1px solid #e0e0e0;
+        }
+
+        .collapsible-header:hover {
+            background: #e9ecef;
+            border-color: var(--color-primary);
+        }
+
+        .collapsible-header h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin: 0;
+        }
+
+        .collapsible-icon {
+            transition: transform 0.3s ease;
+            color: var(--color-primary);
+        }
+
+        .collapsible-header.active .collapsible-icon {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            display: none;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .collapsible-content.active {
+            display: block;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .data-table th {
+            background: var(--color-primary);
+            color: white;
+            font-weight: 700;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .beca-table {
+            font-size: 0.9rem;
+        }
+
+        .beca-table th {
+            background: var(--color-secondary);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--color-background);
+            padding: 50px;
+            border-radius: 15px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .contact-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .contact-email {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-email:hover {
+            color: var(--color-primary);
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mb-20 { margin-bottom: 20px; }
+        .mb-30 { margin-bottom: 30px; }
+        .mb-40 { margin-bottom: 40px; }
+        .mt-40 { margin-top: 40px; }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            background: var(--color-secondary);
+            transform: translateY(-3px);
+        }
+
+        /* Footer - Mantenido igual */
+        footer { background-color: #0a0f1c; color: white; padding: 4rem 5%; width: 100%; overflow: hidden; z-index: 1; position: relative; }
+        .footer-container { max-width: 1400px; width: 100%; margin: 0 auto; display: grid; grid-template-columns: repeat(6, 1fr); gap: 2rem; }
+        .footer-logo { grid-column: 1 / 2; grid-row: 1 / 2; }
+        .footer-logo img { filter: brightness(0) invert(1); max-width: 100%; height: auto; transition: var(--transition); }
+        .footer-logo img:hover { opacity: 0.8; }
+        .footer-section { display: flex; flex-direction: column; }
+        .footer-title { font-weight: 700; font-size: 1.2rem; color: #FFFFFF; margin-bottom: 1.5rem; word-wrap: break-word; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-link { color: rgba(255,255,255,0.7); text-decoration: none; font-weight: 400; font-size: 0.9rem; line-height: 2; transition: var(--transition); word-wrap: break-word; }
+        .footer-link:hover { color: white; }
+
+        /* Responsive Design */
+        @media (max-width: 1199px) and (min-width: 1024px) {
+            .main-menu { display: flex; flex-wrap: nowrap; }
+            .main-menu-item { display: flex; flex: 1; }
+            .main-menu-item > a { display: flex; flex-direction: column; padding: 1.3rem 0.9rem; min-height: 110px; }
+            .menu-title { font-size: 0.85rem; line-height: 1.1; }
+            .menu-subtitle { font-size: 0.56rem; letter-spacing: 1px; }
+            .logo { height: 32px; }
+            .logo-container { padding: 1.2rem 4%; }
+            .welcome-title { font-size: 2.5rem; }
+            .programs-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 1023px) and (min-width: 768px) {
+            .main-menu { display: flex; flex-wrap: wrap; }
+            .main-menu-item { display: flex; flex: 1 1 calc(50% - 0.5rem); margin: 0.25rem; max-width: calc(50% - 0.5rem); width: calc(50% - 0.5rem); }
+            .main-menu-item > a { display: flex; flex-direction: column; padding: 1.1rem 0.8rem; min-height: 100px; }
+            .menu-title { font-size: 0.8rem; line-height: 1.1; }
+            .menu-subtitle { font-size: 0.54rem; letter-spacing: 0.8px; }
+            .logo { height: 30px; }
+            .logo-container { padding: 1rem 3%; }
+            .welcome-title { font-size: 2rem; }
+            .programs-grid { grid-template-columns: 1fr; }
+            .mega-submenu { display: none; }
+        }
+        
+        @media (max-width: 767px) {
+            .hide-on-mobile { display: none; }
+            .logo { height: 28px; }
+            .logo-container { padding: 0.8rem 3%; }
+            .main-menu { display: block; flex-direction: column; flex-wrap: nowrap; width: 100%; }
+            .main-menu-item { display: block; width: 100%; max-width: 100%; flex: none; margin: 0; }
+            .main-menu-item > a { display: block; padding: 1.1rem 1.2rem; min-height: 0; width: 100%; position: relative; flex-direction: row; }
+            .menu-title { display: block; font-size: 0.9rem; line-height: 1.2; margin-bottom: 0.8rem; width: 100%; }
+            .menu-subtitle { display: block; font-size: 0.56rem; letter-spacing: 0.8px; width: 100%; text-align: left; margin-top: 0.8rem; opacity: 0.9; }
+            .menu-title::after { bottom: -4px; left: 0; width: 100%; height: 2px; background-color: rgba(255, 255, 255, 0.4); }
+            .mega-submenu { display: none; }
+            .welcome-title { font-size: 1.8rem; }
+            .welcome-subtitle { font-size: 1rem; }
+            .programs-grid { grid-template-columns: 1fr; gap: 20px; }
+            .elementor-container { padding: 0 15px; }
+            .footer-container { grid-template-columns: 1fr; gap: 2rem; text-align: left; }
+            .footer-section { text-align: left; }
+            .footer-logo { grid-column: 1; justify-self: start; margin-bottom: 2rem; }
+            .news-scroll-item { flex: 0 0 250px; }
+        }
+        
+        @media (max-width: 480px) {
+            .logo { height: 25px; }
+            .logo-container { padding: 0.6rem 2%; }
+            .main-menu-item > a { padding: 1rem; }
+            .menu-title { font-size: 0.85rem; margin-bottom: 0.7rem; }
+            .menu-subtitle { font-size: 0.52rem; letter-spacing: 0.5px; margin-top: 0.7rem; }
+            .welcome-title { font-size: 1.5rem; }
+            .welcome-subtitle { font-size: 0.9rem; }
+            .elementor-container { padding: 0 10px; }
+            .program-card { padding: 20px; }
+            .data-table th, .data-table td { padding: 10px; font-size: 0.8rem; }
+            .news-scroll-item { flex: 0 0 200px; padding: 15px; }
+        }
+
+        .mobile-normativa-text { display: none; }
+        @media (max-width: 767px) {
+            .mobile-normativa-text { display: block; }
+            .desktop-normativa-text { display: none; }
+            .mobile-space { display: inline; }
+            .menu-title { min-height: 2.2em; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header con logo -->
+    <div class="logo-container">
+        <img src="https://itba-wa.vercel.app/ITBA_ITBAAlumnos_Identidad_Logos-02-1.png" alt="ITBA Logo" class="logo">
+    </div>
+    
+    <!-- Menú principal -->
+    <div class="main-menu-container">
+        <div class="main-menu" style="display: block; flex-flow: column;">
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Información Académica</div>
+                    <div class="menu-subtitle">MATRICULACIÓN Y EXÁMENES</div>
+                </a>
+                <div class="mega-submenu">
+                    <div class="mega-submenu-content">
+                        <div class="mega-submenu-section">
+                            <a href="#" class="mega-submenu-item">Matriculación a Materias</a>
+                            <a href="#" class="mega-submenu-item">Práctica Profesional Supervisada</a>
+                            <a href="#" class="mega-submenu-item">Seminarios de Actualización Tecnológica</a>
+                            <a href="#" class="mega-submenu-item">Exámenes Finales</a>
+                            <a href="#" class="mega-submenu-item">Validación Inglés</a>
+                            <a href="#" class="mega-submenu-item">Planes de estudio</a>
+                            <a href="#" class="mega-submenu-item">Grillas</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Trámites y<br class="hide-on-mobile"><span class="mobile-space"> </span>Servicios</div>
+                    <div class="menu-subtitle">GESTIÓN <br class="hide-on-mobile">ADMINISTRATIVA</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Bienestar y<br class="hide-on-mobile"><span class="mobile-space"> </span>Tutorías</div>
+                    <div class="menu-subtitle">APOYO <br class="hide-on-mobile">ESTUDIANTIL</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Estudiantes<br class="hide-on-mobile"><span class="mobile-space"> </span>Primer Año</div>
+                    <div class="menu-subtitle">BIENVENIDA UNIVERSITARIA</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Iniciativas<br class="hide-on-mobile"><span class="mobile-space"> </span>Estudiantiles</div>
+                    <div class="menu-subtitle">ASOCIACIONES Y ACTIVIDADES</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Movilidad<br class="hide-on-mobile"><span class="mobile-space"> </span>Internacional</div>
+                    <div class="menu-subtitle">EXPERIENCIA <br class="hide-on-mobile">GLOBAL</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Desarrollo Profesional</div>
+                    <div class="menu-subtitle">AYUDANTÍAS Y PASANTÍAS</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Becas y<br class="hide-on-mobile"><span class="mobile-space"> </span>Préstamos</div>
+                    <div class="menu-subtitle">APOYO <br class="hide-on-mobile">FINANCIERO</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title"><br class="hide-on-mobile">Calendario</div>
+                    <div class="menu-subtitle">FECHAS <br class="hide-on-mobile">IMPORTANTES</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">
+                        <span class="desktop-normativa-text">Normativa<br class="hide-on-mobile">Institucional</span>
+                        <span class="mobile-normativa-text">Normativa Institucional</span>
+                    </div>
+                    <div class="menu-subtitle">
+                        <span class="desktop-normativa-text">REGLAMEN-<br class="hide-on-mobile">TACIONES</span>
+                        <span class="mobile-normativa-text">REGLAMENTACIONES</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section con Scroll de Noticias -->
+    <section class="elementor-section hero-news-section">
+        <div class="elementor-container">
+            <div class="news-scroll-container">
+                <div class="news-scroll-wrapper">
+                    <div class="news-scroll-item">
+                        <h3 class="news-scroll-title">Convocatoria Intercambio 2025</h3>
+                        <p class="news-scroll-text">Abierta la convocatoria para programas de intercambio del segundo cuatrimestre 2025. Postulaciones hasta el 10 de febrero.</p>
+                    </div>
+                    <div class="news-scroll-item">
+                        <h3 class="news-scroll-title">Nuevas Becas Disponibles</h3>
+                        <p class="news-scroll-text">Conocé las nuevas becas internacionales disponibles para estudiantes del ITBA. Financiamiento para tu experiencia global.</p>
+                    </div>
+                    <div class="news-scroll-item">
+                        <h3 class="news-scroll-title">Summer Programs 2025</h3>
+                        <p class="news-scroll-text">Programas de verano en universidades de prestigio mundial. Experiencias intensivas de 2 a 4 semanas.</p>
+                    </div>
+                    <div class="news-scroll-item">
+                        <h3 class="news-scroll-title">Doble Título con Europa</h3>
+                        <p class="news-scroll-text">Nuevos convenios de doble titulación con universidades europeas. Obtené dos títulos en tiempo optimizado.</p>
+                    </div>
+                    <div class="news-scroll-item">
+                        <h3 class="news-scroll-title">Testimonios de Estudiantes</h3>
+                        <p class="news-scroll-text">Conocé las experiencias de nuestros estudiantes en programas de movilidad internacional.</p>
+                    </div>
+                    <!-- Duplicamos para efecto continuo -->
+                    <div class="news-scroll-item">
+                        <h3 class="news-scroll-title">Convocatoria Intercambio 2025</h3>
+                        <p class="news-scroll-text">Abierta la convocatoria para programas de intercambio del segundo cuatrimestre 2025. Postulaciones hasta el 10 de febrero.</p>
+                    </div>
+                    <div class="news-scroll-item">
+                        <h3 class="news-scroll-title">Nuevas Becas Disponibles</h3>
+                        <p class="news-scroll-text">Conocé las nuevas becas internacionales disponibles para estudiantes del ITBA. Financiamiento para tu experiencia global.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Welcome Section -->
+    <section class="elementor-section welcome-section">
+        <div class="elementor-container">
+            <div class="elementor-row">
+                <div class="elementor-column">
+                    <h1 class="welcome-title font-800">Viví una experiencia internacional con el ITBA</h1>
+                    <p class="welcome-subtitle">
+                        ¿Querés potenciar tu carrera académica con una experiencia internacional? ¿Te gustaría perfeccionar un idioma extranjero y sumergirte en una nueva cultura mientras estudiás en universidades de primer nivel alrededor del mundo?
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="elementor-section content-section">
+        <div class="elementor-container">
+            <div class="elementor-row">
+                <div class="elementor-column">
+                    <!-- Texto de bienvenida -->
+                    <div class="intro-text">
+                        <p>En el ITBA te ofrecemos la posibilidad de enriquecer tu formación académica con una vivencia multicultural única. A través de nuestros programas de intercambio y Doble título y convenios con instituciones educativas líderes a nivel global, podés complementar tus estudios y ampliar tus horizontes personales y profesionales.</p>
+                        
+                        <p>Estudiar en el exterior no solo te brinda una perspectiva global, sino que también te prepara para enfrentar los desafíos de un mundo cada vez más conectado.</p>
+                        
+                        <p><strong>Descubrí todo lo que nuestro Departamento de Relaciones Internacionales tiene para vos.</strong></p>
+                    </div>
+
+                    <!-- Explicación de diferentes movilidades -->
+                    <div class="intro-text">
+                        <h2 class="section-title">Conocé los programas de movilidad internacional que ofrece el ITBA</h2>
+                        <p>Tenés la posibilidad de realizar un intercambio académico en cualquiera de nuestras universidades socias, o en aquellas que forman parte de las redes GE3 o Magallanes.</p>
+                        
+                        <p>Los programas de Doble Título permiten obtener simultáneamente el título del ITBA y el de la universidad de destino, en un período de tiempo optimizado.</p>
+                        
+                        <p>Asimismo, los programas cortos, como los programas de verano, brindan la oportunidad de explorar nuevas temáticas y culturas en un lapso reducido, enriqueciendo tu formación académica y personal.</p>
+                    </div>
+
+                    <!-- Tarjetas de programas -->
+                    <div class="programs-grid">
+                        <div class="program-card" onclick="showSection('grado')">
+                            <h3 class="program-title">GRADO</h3>
+                            <div class="program-subtitle">
+                                <div>1.1. Intercambio</div>
+                                <div>1.2. Doble Título</div>
+                            </div>
+                            <p class="program-description">Programas de movilidad para estudiantes de carreras de grado con opciones de intercambio académico y doble titulación.</p>
+                        </div>
+
+                        <div class="program-card" onclick="showSection('posgrado')">
+                            <h3 class="program-title">POSGRADO</h3>
+                            <div class="program-subtitle">
+                                <div>2.1. Intercambio</div>
+                                <div>2.2. Doble Título</div>
+                            </div>
+                            <p class="program-description">Oportunidades de internacionalización para estudiantes de maestrías y especializaciones.</p>
+                        </div>
+
+                        <div class="program-card" onclick="showSection('becas')">
+                            <h3 class="program-title">BECAS</h3>
+                            <div class="program-subtitle">
+                                <div>3.1. Beca ITBA Internacional</div>
+                                <div>3.2. Becas Universidades Socias</div>
+                                <div>3.3. Becas Externas</div>
+                            </div>
+                            <p class="program-description">Apoyo financiero para hacer realidad tu experiencia internacional.</p>
+                        </div>
+
+                        <div class="program-card" onclick="showSection('programas-cortos')">
+                            <h3 class="program-title">PROGRAMAS CORTOS</h3>
+                            <div class="program-subtitle">
+                                <div>4.1. Summer Programs</div>
+                            </div>
+                            <p class="program-description">Experiencias internacionales intensivas de corta duración durante los recesos académicos.</p>
+                        </div>
+                    </div>
+
+                    <!-- Sección GRADO -->
+                    <div id="grado" class="section-content">
+                        <h2 class="subsection-title">GRADO</h2>
+                        <p class="intro-text">En el ITBA ofrecemos carreras de grado con una sólida formación técnica, científica y de gestión, orientadas a formar profesionales innovadores, comprometidos y preparados para liderar en un entorno global. Nuestras carreras combinan excelencia académica con una fuerte vinculación con la industria, la investigación y el desarrollo tecnológico.</p>
+                        
+                        <p class="intro-text">Como parte de nuestra propuesta formativa, fomentamos una visión internacional a través de diversos programas de movilidad académica. Los estudiantes de grado tienen la posibilidad de:</p>
+
+                        <!-- Intercambio -->
+                        <div class="subsection">
+                            <div class="collapsible-header" onclick="toggleCollapsible('intercambio-grado')">
+                                <h4>INTERCAMBIO</h4>
+                                <i class="fas fa-chevron-down collapsible-icon"></i>
+                            </div>
+                            <div id="intercambio-grado" class="collapsible-content">
+                                <h5 style="color: var(--color-primary); margin-bottom: 1rem;">Calendario de Convocatorias</h5>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Convocatoria</th>
+                                            <th>Fechas de postulación</th>
+                                            <th>Programas y Universidades</th>
+                                            <th>Cuatrimestre de inicio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Primera Convocatoria de postulación</td>
+                                            <td>Del 10 de enero al 10 de febrero, hasta las 23:59</td>
+                                            <td>Universidades con convenio y red GE3</td>
+                                            <td>Segundo cuatrimestre</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Segunda Convocatoria de postulación</td>
+                                            <td>Del 10 de julio al 10 de agosto, hasta las 23:59</td>
+                                            <td>Universidades con convenio y red GE3</td>
+                                            <td>Primer cuatrimestre</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h5 style="color: var(--color-primary); margin: 2rem 0 1rem 0;">Proceso de Postulación</h5>
+                                
+                                <div class="collapsible-header" onclick="toggleCollapsible('postulacion-itba-intercambio')">
+                                    <h4>Tu postulación ante ITBA</h4>
+                                    <i class="fas fa-chevron-down collapsible-icon"></i>
+                                </div>
+                                <div id="postulacion-itba-intercambio" class="collapsible-content">
+                                    <p>Información detallada sobre los requisitos y proceso de postulación ante el ITBA para programas de intercambio.</p>
+                                </div>
+
+                                <div class="collapsible-header" onclick="toggleCollapsible('postulacion-universidad-intercambio')">
+                                    <h4>Tu postulación ante la universidad de destino</h4>
+                                    <i class="fas fa-chevron-down collapsible-icon"></i>
+                                </div>
+                                <div id="postulacion-universidad-intercambio" class="collapsible-content">
+                                    <p>Guía sobre el proceso de aplicación directa con la universidad de destino seleccionada.</p>
+                                </div>
+
+                                <div class="collapsible-header" onclick="toggleCollapsible('pre-partida-intercambio')">
+                                    <h4>Tu pre-partida y tu regreso</h4>
+                                    <i class="fas fa-chevron-down collapsible-icon"></i>
+                                </div>
+                                <div id="pre-partida-intercambio" class="collapsible-content">
+                                    <p>Información sobre preparativos para el viaje y proceso de reintegración al regresar.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Doble Título -->
+                        <div class="subsection">
+                            <div class="collapsible-header" onclick="toggleCollapsible('doble-titulo-grado')">
+                                <h4>DOBLE TÍTULO</h4>
+                                <i class="fas fa-chevron-down collapsible-icon"></i>
+                            </div>
+                            <div id="doble-titulo-grado" class="collapsible-content">
+                                <h5 style="color: var(--color-primary); margin-bottom: 1rem;">Calendario de Convocatorias</h5>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Convocatoria</th>
+                                            <th>Fechas de postulación</th>
+                                            <th>Programas y Universidades</th>
+                                            <th>Cuatrimestre de inicio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Primera Convocatoria de postulación</td>
+                                            <td>Del 10 de enero al 10 de febrero, hasta las 23:59</td>
+                                            <td>UASTW, POLIMI, POLITO, Rutgers, Rice</td>
+                                            <td>Segundo cuatrimestre</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Segunda Convocatoria de postulación</td>
+                                            <td>Del 10 de julio al 10 de agosto, hasta las 23:59</td>
+                                            <td>UASTW, POLIMI, Rutgers, ESCP</td>
+                                            <td>UASTW, POLIMI, Rutgers (primer cuatrimestre); ESCP (segundo cuatrimestre del año siguiente)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h5 style="color: var(--color-primary); margin: 2rem 0 1rem 0;">Proceso de Postulación</h5>
+                                
+                                <div class="collapsible-header" onclick="toggleCollapsible('postulacion-itba-dt')">
+                                    <h4>Tu postulación ante ITBA</h4>
+                                    <i class="fas fa-chevron-down collapsible-icon"></i>
+                                </div>
+                                <div id="postulacion-itba-dt" class="collapsible-content">
+                                    <p>Información detallada sobre los requisitos y proceso de postulación ante el ITBA para programas de doble título.</p>
+                                </div>
+
+                                <div class="collapsible-header" onclick="toggleCollapsible('postulacion-universidad-dt')">
+                                    <h4>Tu postulación ante la universidad de destino</h4>
+                                    <i class="fas fa-chevron-down collapsible-icon"></i>
+                                </div>
+                                <div id="postulacion-universidad-dt" class="collapsible-content">
+                                    <p>Guía sobre el proceso de aplicación directa con la universidad de destino para doble título.</p>
+                                </div>
+
+                                <div class="collapsible-header" onclick="toggleCollapsible('pre-partida-dt')">
+                                    <h4>Tu pre-partida y tu regreso</h4>
+                                    <i class="fas fa-chevron-down collapsible-icon"></i>
+                                </div>
+                                <div id="pre-partida-dt" class="collapsible-content">
+                                    <p>Información sobre preparativos para el viaje y proceso de reintegración para programas de doble título.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección POSGRADO -->
+                    <div id="posgrado" class="section-content">
+                        <h2 class="subsection-title">POSGRADO</h2>
+                        <p class="intro-text">Los programas de posgrado del ITBA están diseñados para profesionales que buscan especializarse, actualizar conocimientos y desarrollar habilidades estratégicas para liderar en un entorno dinámico y globalizado. Ofrecemos maestrías, especializaciones y programas ejecutivos en áreas clave como ingeniería, tecnología, gestión, energía, sustentabilidad y data science.</p>
+                        
+                        <p class="intro-text">Con una propuesta académica de alto nivel y docentes con amplia trayectoria profesional y académica, los posgrados del ITBA combinan rigurosidad técnica con una mirada aplicada e innovadora.</p>
+                        
+                        <p class="intro-text">Además, los estudiantes de posgrado tienen la posibilidad de acceder a oportunidades de internacionalización.</p>
+
+                        <h3 style="color: var(--color-primary); margin: 2rem 0 1rem 0;">Proyectos Futuros</h3>
+                        <p class="intro-text">Actualmente se encuentra en desarrollo una oferta académica de posgrado en conjunto con universidades socias del exterior y miembros de redes internacionales como GE3. Se estima que las primeras convocatorias estarán disponibles a partir del año 2026.</p>
+                    </div>
+
+                    <!-- Sección BECAS -->
+                    <div id="becas" class="section-content">
+                        <h2 class="subsection-title">BECAS</h2>
+                        <p class="intro-text">Nuestro asesoramiento personalizado para que nadie se quede sin la oportunidad de realizar una movilidad en el exterior. Ofrecemos diversas oportunidades de financiamiento que los estudiantes tienen para la movilidad internacional.</p>
+
+                        <!-- Beca ITBA Internacional -->
+                        <div class="subsection">
+                            <div class="collapsible-header" onclick="toggleCollapsible('beca-itba')">
+                                <h4>BECA ITBA INTERNACIONAL</h4>
+                                <i class="fas fa-chevron-down collapsible-icon"></i>
+                            </div>
+                            <div id="beca-itba" class="collapsible-content">
+                                <p>En el marco de la expansión del programa de movilidad y las iniciativas de desarrollo de fondos del ITBA, se lanza la Beca Internacional, destinada a apoyar a estudiantes con buen desempeño académico y necesidad económica que deseen postularse a un programa de intercambio.</p>
+                                
+                                <h5 style="color: var(--color-primary); margin: 1.5rem 0 1rem 0;">¿En qué consiste?</h5>
+                                <p>La beca cubrirá los gastos de pasaje (ida y vuelta) hacia la ciudad más cercana a la universidad de destino. Se otorgará una (1) beca por convocatoria.</p>
+                                
+                                <h5 style="color: var(--color-primary); margin: 1.5rem 0 1rem 0;">Requisitos para postularse:</h5>
+                                <ul style="margin-left: 2rem; line-height: 1.8;">
+                                    <li>Ser estudiante de Ingeniería o Licenciatura con al menos un 30% de la carrera aprobada.</li>
+                                    <li>No registrar sanciones disciplinarias.</li>
+                                    <li>Comprometerse a postularse a un programa de intercambio en el próximo período inmediato.</li>
+                                    <li>Ser beneficiario de una beca Argentina del ITBA o acreditar situación de necesidad económica, según los criterios del Departamento de Becas.</li>
+                                </ul>
+
+                                <table class="data-table beca-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre de Beca</th>
+                                            <th>Entidad Financiadora</th>
+                                            <th>Target</th>
+                                            <th>Cobertura</th>
+                                            <th>Cupos</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Beca ITBA INTERNACIONAL</td>
+                                            <td>ITBA</td>
+                                            <td>Intercambio o DT</td>
+                                            <td>Gastos asociados al pasaje, ida y vuelta</td>
+                                            <td>1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h5 style="color: var(--color-primary); margin: 1.5rem 0 1rem 0;">Consultas:</h5>
+                                <p>Movilidad internacional: <a href="mailto:relacionesinternacionales@itba.edu.ar" class="contact-email">relacionesinternacionales@itba.edu.ar</a></p>
+                                <p>Postulación a la beca: <a href="mailto:becasitba@itba.edu.ar" class="contact-email">becasitba@itba.edu.ar</a></p>
+                            </div>
+                        </div>
+
+                        <!-- Becas Universidades Socias -->
+                        <div class="subsection">
+                            <div class="collapsible-header" onclick="toggleCollapsible('becas-universidades')">
+                                <h4>BECAS DE UNIVERSIDADES SOCIAS</h4>
+                                <i class="fas fa-chevron-down collapsible-icon"></i>
+                            </div>
+                            <div id="becas-universidades" class="collapsible-content">
+                                <p>Algunas de las universidades extranjeras con las que el ITBA mantiene convenios de cooperación internacional ofrecen becas específicas para estudiantes internacionales, destinadas a facilitar su participación en programas de intercambio académico.</p>
+                                
+                                <p>Estas becas pueden cubrir distintos conceptos, como alojamiento, manutención parcial, reducción de matrícula o beneficios adicionales, según la política de cada institución anfitriona.</p>
+                                
+                                <p>El ITBA no otorga ni gestiona directamente estas becas, pero cumple un rol clave en el asesoramiento y acompañamiento durante el proceso de postulación. Desde el Departamento de Relaciones Internacionales se brinda información sobre los cupos disponibles, criterios de elegibilidad, documentación requerida y fechas límite de cada convocatoria.</p>
+                                
+                                <p><strong>Importante:</strong> La disponibilidad y condiciones de estas becas dependen exclusivamente de cada universidad extranjera, y pueden variar de un año a otro.</p>
+
+                                <table class="data-table beca-table">
+                                    <thead>
+                                        <tr>
+                                            <th>País</th>
+                                            <th>Universidad asociada</th>
+                                            <th>Nombre de Beca</th>
+                                            <th>Entidad Financiadora</th>
+                                            <th>Target</th>
+                                            <th>Cobertura</th>
+                                            <th>Cupos</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Suecia</td>
+                                            <td>Chalmers University</td>
+                                            <td>Becas CHALMERS UNIVERSITY OF TECHNOLOGY</td>
+                                            <td>Chalmers University Of Technology</td>
+                                            <td>Intercambio</td>
+                                            <td>600 $ esencialmente para el Alojamiento</td>
+                                            <td>2 por semestre</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alemania</td>
+                                            <td>Stuttgart University</td>
+                                            <td>STUTTGART SCHOLARSHIP</td>
+                                            <td>Baden-Wuerttemberg foundation</td>
+                                            <td>Intercambio</td>
+                                            <td>Winter: 700 Euro por 5 meses<br>Summer: 700 Euro por 4 meses</td>
+                                            <td>1 por semestre</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Canadá</td>
+                                            <td>Polytechnique Montréal</td>
+                                            <td>RESEARCH INTERNSHIP PROGRAM</td>
+                                            <td>Polytechnique Montréal</td>
+                                            <td>Intercambio grado o posgrado, PHD</td>
+                                            <td>6,000 CAD for 4 months (prorated at 1 500 CAD/month)</td>
+                                            <td>25</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alemania</td>
+                                            <td>Karlsruher Institut für Technologie (KIT)</td>
+                                            <td>Baden-Württenberg-STIPENDIUM Scolarship (BWS)</td>
+                                            <td>Baden-Wuerttemberg foundation</td>
+                                            <td>Grado o Master (no PHD)</td>
+                                            <td>4000eur en 4 pagos de 1,000eur</td>
+                                            <td>1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Becas Externas -->
+                        <div class="subsection">
+                            <div class="collapsible-header" onclick="toggleCollapsible('becas-externas')">
+                                <h4>BECAS EXTERNAS</h4>
+                                <i class="fas fa-chevron-down collapsible-icon"></i>
+                            </div>
+                            <div id="becas-externas" class="collapsible-content">
+                                <p>Además de las becas ofrecidas por universidades socias, existen becas externas impulsadas por organismos gubernamentales, agencias de cooperación etc de los países con los que el ITBA mantiene convenios de movilidad internacional.</p>
+                                
+                                <p>Estas becas suelen estar destinadas a estudiantes internacionales y pueden incluir cobertura de pasajes, manutención, seguro médico, exención de matrícula u otros beneficios, dependiendo de la convocatoria y del país de destino.</p>
+                                
+                                <p>El ITBA no gestiona directamente estas becas, pero a través del Departamento de Relaciones Internacionales brinda asesoramiento, acompañamiento y orientación a los estudiantes interesados en postularse. Se ofrece información actualizada sobre requisitos, plazos, criterios de selección y procedimientos de aplicación.</p>
+                                
+                                <p><strong>Importante:</strong> La disponibilidad y condiciones de estas becas dependen exclusivamente de las entidades que las otorgan, por lo que pueden variar en cada convocatoria.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección PROGRAMAS CORTOS -->
+                    <div id="programas-cortos" class="section-content">
+                        <h2 class="subsection-title">PROGRAMAS CORTOS</h2>
+                        <p class="intro-text">Los programas cortos ofrecidos por el ITBA forman parte de su propuesta de internacionalización y están orientados a brindar a los estudiantes una experiencia académica y cultural en el extranjero en períodos reducidos, generalmente durante los recesos académicos.</p>
+                        
+                        <p class="intro-text">Estos programas se desarrollan en universidades e instituciones socias del ITBA y suelen tener una duración de entre una y cuatro semanas. Están enfocados en temáticas específicas —como innovación, sostenibilidad, tecnología, negocios o cultura local— y combinan clases teóricas, talleres prácticos, visitas a empresas y actividades culturales.</p>
+
+                        <h3 style="color: var(--color-primary); margin: 2rem 0 1rem 0;">A través de esta modalidad, los estudiantes tienen la oportunidad de:</h3>
+                        <ul style="margin-left: 2rem; line-height: 1.8;">
+                            <li>Ampliar su formación académica en contextos internacionales.</li>
+                            <li>Fortalecer competencias interculturales y lingüísticas.</li>
+                            <li>Enriquecer su red de contactos profesionales y académicos.</li>
+                            <li>Vivir una experiencia global en un formato flexible y accesible.</li>
+                        </ul>
+
+                        <p class="intro-text">Los programas cortos no suelen requerir equivalencias académicas formales, pero pueden ser reconocidos como actividades complementarias según el reglamento de cada carrera.</p>
+
+                        <!-- Summer Programs -->
+                        <div class="subsection">
+                            <div class="collapsible-header" onclick="toggleCollapsible('summer-programs')">
+                                <h4>SUMMER PROGRAMS</h4>
+                                <i class="fas fa-chevron-down collapsible-icon"></i>
+                            </div>
+                            <div id="summer-programs" class="collapsible-content">
+                                <p>Los Summer Programs son programas intensivos de verano que ofrecen una experiencia académica y cultural única en universidades de prestigio internacional.</p>
+                                
+                                <h5 style="color: var(--color-primary); margin: 1.5rem 0 1rem 0;">Características generales:</h5>
+                                <ul style="margin-left: 2rem; line-height: 1.8;">
+                                    <li>Duración: Entre 2 y 4 semanas</li>
+                                    <li>Período: Durante el receso de verano (enero-febrero)</li>
+                                    <li>Modalidad: Presencial en universidades socias</li>
+                                    <li>Certificación: Certificado de participación</li>
+                                </ul>
+
+                                <h5 style="color: var(--color-primary); margin: 1.5rem 0 1rem 0;">Requisitos generales:</h5>
+                                <ul style="margin-left: 2rem; line-height: 1.8;">
+                                    <li>Ser estudiante activo del ITBA</li>
+                                    <li>Nivel de inglés intermedio-avanzado</li>
+                                    <li>Buen rendimiento académico</li>
+                                    <li>Completar proceso de postulación en tiempo y forma</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección de contacto -->
+                    <div class="contact-section">
+                        <h3 class="contact-title">Contacto del Departamento</h3>
+                        <div class="contact-info">
+                            <p><strong>Director de Relaciones Internacionales:</strong> Germán Moyano</p>
+                            <p><strong>Departamento de Relaciones Internacionales y Universitarias</strong></p>
+                            <p><a href="mailto:relacionesinternacionales@itba.edu.ar" class="contact-email">relacionesinternacionales@itba.edu.ar</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Botón volver arriba -->
+    <button class="back-to-top" onclick="scrollToTop()">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="https://www.itba.edu.ar/wp-content/uploads/2021/08/ITBA-logo3.png" alt="ITBA Logo">
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Somos ITBA</h3>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Institucional</a></li>
+                    <li><a href="#" class="footer-link">Autoridades</a></li>
+                    <li><a href="#" class="footer-link">Docentes</a></li>
+                    <li><a href="#" class="footer-link">Graduados</a></li>
+                    <li><a href="#" class="footer-link">Empleos y pasantías</a></li>
+                    <li><a href="#" class="footer-link">Experiencia ITBA</a></li>
+                    <li><a href="#" class="footer-link">Sedes</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Oferta Académica</h3>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Grado</a></li>
+                    <li><a href="#" class="footer-link">Postgrado</a></li>
+                    <li><a href="#" class="footer-link">Educación ejecutiva</a></li>
+                    <li><a href="#" class="footer-link">Doctorado</a></li>
+                    <li><a href="#" class="footer-link">Servicios Corporativos</a></li>
+                    <li><a href="#" class="footer-link">ITBA global</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Becas</h3>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Ingreso Ingenierías</a></li>
+                    <li><a href="#" class="footer-link">Ingreso Licenciaturas</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Investigación y desarrollo</h3>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Extensión</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Campus</h3>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Intranet</a></li>
+                    <li><a href="#" class="footer-link">Biblioteca</a></li>
+                    <li><a href="#" class="footer-link">Noticias</a></li>
+                    <li><a href="#" class="footer-link">Trabajá con nosotros</a></li>
+                    <li><a href="#" class="footer-link">Portal de Compras</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Función para mostrar secciones
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            const sections = document.querySelectorAll('.section-content');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Mostrar la sección seleccionada
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                // Scroll suave hacia la sección
+                targetSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // Función para toggle de contenido colapsable
+        function toggleCollapsible(contentId) {
+            const content = document.getElementById(contentId);
+            const header = content.previousElementSibling;
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                header.classList.remove('active');
+            } else {
+                content.classList.add('active');
+                header.classList.add('active');
+            }
+        }
+
+        // Función para scroll hacia arriba
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Mostrar/ocultar botón de volver arriba
+        window.addEventListener('scroll', function() {
+            const backToTopBtn = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.display = 'flex';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
+
+        // Función para resetear estilos del menú
+        function resetMenuStyles() {
+            const menu = document.querySelector('.main-menu');
+            const menuItems = document.querySelectorAll('.main-menu-item');
+            const menuLinks = document.querySelectorAll('.main-menu-item > a');
+            
+            if (window.innerWidth <= 767) {
+                menu.style.display = 'block';
+                menu.style.flexDirection = 'column';
+                menu.style.flexWrap = 'nowrap';
+                menuItems.forEach(item => {
+                    item.style.display = 'block';
+                    item.style.width = '100%';
+                    item.style.maxWidth = '100%';
+                    item.style.flex = 'none';
+                    item.style.margin = '0';
+                });
+                menuLinks.forEach(link => {
+                    link.style.display = 'block';
+                    link.style.flexDirection = 'row';
+                });
+            } else {
+                menu.style.display = 'flex';
+                menu.style.flexDirection = 'row';
+                menu.style.flexWrap = 'nowrap';
+                menuItems.forEach(item => {
+                    item.style.display = 'flex';
+                    item.style.width = 'auto';
+                    item.style.maxWidth = 'none';
+                    item.style.flex = '1';
+                    item.style.margin = '0';
+                });
+                menuLinks.forEach(link => {
+                    link.style.display = 'flex';
+                    link.style.flexDirection = 'column';
+                });
+            }
+        }
+
+        // Event listeners
+        window.addEventListener('load', () => {
+            resetMenuStyles();
+            setTimeout(resetMenuStyles, 100);
+        });
+        
+        window.addEventListener('resize', () => {
+            resetMenuStyles();
+            setTimeout(resetMenuStyles, 100);
+        });
+        
+        resetMenuStyles();
+        setInterval(resetMenuStyles, 1000);
+
+        // Smooth scrolling para enlaces internos
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('a[href^="#"]');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
