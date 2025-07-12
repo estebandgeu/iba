@@ -1,0 +1,605 @@
+<html lang="es"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITBA - Instituto Tecnológico de Buenos Aires</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #0056b3; --color-secondary: #008EBA; --color-accent: #17a2b8;
+            --color-background: #f8f9fa; --color-text: #333; --color-text-light: #6c757d;
+            --transition: all 0.3s ease;
+            --color-menu-1: #0a2472; --color-menu-2: #1e3a8a; --color-menu-3: #374151;
+            --color-menu-4: #4b5563; --color-menu-5: #6b7280; --color-menu-6: #4a5568;
+            --color-menu-7: #374151; --color-menu-8: #1f2937; --color-menu-9: #111827; --color-menu-10: #000000;
+        }
+        
+        html, body { overflow-x: hidden; max-width: 100%; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Libre Franklin', sans-serif; max-width: 100%; }
+        body { line-height: 1.6; color: var(--color-text); background-color: var(--color-background); font-weight: 400; width: 100%; }
+        
+        h1, .carousel-title, .section-title { font-weight: 800; }
+        h2, h3, h4, .carousel-subtitle, .timeline-title, .news-title, .footer-title { font-weight: 700; }
+        
+        .logo-container { display: flex; justify-content: flex-start; align-items: center; padding: 1.5rem 5%; background-color: black; box-shadow: 0 2px 10px rgba(0,0,0,0.05); width: 100%; }
+        .logo { height: 35px; transition: var(--transition); filter: brightness(0) invert(1); max-width: 200px; }
+        .logo:hover { transform: scale(1.05); }
+        
+        .main-menu-container { width: 100%; background-color: transparent; margin-top: 0; overflow: visible; position: relative; z-index: 100; }
+        .main-menu { display: flex; width: 100%; height: auto; align-items: stretch; overflow: visible; position: relative; z-index: 100; flex-wrap: nowrap; }
+        .main-menu-item { flex: 1; display: flex; align-items: stretch; height: auto; position: relative; overflow: visible; min-width: 0; z-index: 100; }
+        
+        .main-menu-item > a {
+            display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+            height: 100%; width: 100%; text-decoration: none; color: #ffffff; font-weight: 700;
+            text-align: left; padding: 1.5rem 1rem; transition: var(--transition);
+            position: relative; z-index: 101; min-height: 120px; overflow: hidden;
+        }
+        
+        .menu-title { font-size: 0.9rem; margin-bottom: 0.5rem; position: relative; z-index: 102; line-height: 1.1; width: 100%; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
+        .menu-title-line1, .menu-title-line2 { display: block; }
+        .menu-title-line1 { margin-bottom: 0.2rem; }
+        
+        .menu-title::after {
+            content: ''; position: absolute; bottom: -8px; left: 0; width: 100%;
+            height: 2px; background-color: rgba(255, 255, 255, 0.4); transition: var(--transition);
+        }
+        
+        .menu-subtitle {font-size: 0.6rem; font-weight: 400; letter-spacing: 1.3px; text-transform: uppercase; opacity: 0.9; line-height: 1.3; position: relative; z-index: 102; width: 100%; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
+        
+        .main-menu-item:nth-child(1) > a { background-color: var(--color-menu-1); }
+        .main-menu-item:nth-child(2) > a { background-color: var(--color-menu-2); }
+        .main-menu-item:nth-child(3) > a { background-color: var(--color-menu-3); }
+        .main-menu-item:nth-child(4) > a { background-color: var(--color-menu-4); }
+        .main-menu-item:nth-child(5) > a { background-color: var(--color-menu-5); }
+        .main-menu-item:nth-child(6) > a { background-color: var(--color-menu-6); }
+        .main-menu-item:nth-child(7) > a { background-color: var(--color-menu-7); }
+        .main-menu-item:nth-child(8) > a { background-color: var(--color-menu-8); }
+        .main-menu-item:nth-child(9) > a { background-color: var(--color-menu-9); }
+        .main-menu-item:nth-child(10) > a { background-color: var(--color-menu-10); }
+        
+        .main-menu-item > a::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.1); opacity: 0; transition: var(--transition); z-index: 1; }
+        .main-menu-item > a:hover::before { opacity: 1; }
+        .main-menu-item > a:hover { transform: translateY(-3px); }
+        .main-menu-item > a:hover .menu-title::after { width: 60px; }
+        
+        .mega-submenu {
+            position: absolute; top: 100%; left: 0; width: 650px; max-width: calc(100vw - 2rem);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.1);
+            opacity: 0; visibility: hidden; transform: translateY(10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 9999; padding: 1.5rem;
+            overflow: hidden; border: 1px solid rgba(0, 86, 179, 0.1);
+            backdrop-filter: blur(10px); margin-left: 5%;
+        }
+        
+        .main-menu-item:hover .mega-submenu, .main-menu-item:focus-within .mega-submenu { opacity: 1; visibility: visible; transform: translateY(0); display: block; }
+        
+        .mega-submenu-content { display: grid; grid-template-columns: 1fr; gap: 0.8rem; width: 100%; }
+        .mega-submenu-section { margin-bottom: 1rem; }
+        .mega-submenu-section:last-child { margin-bottom: 0; }
+        
+        .mega-submenu-section-title {
+            font-size: 0.9rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--color-primary);
+            text-transform: uppercase; letter-spacing: 1px; position: relative; padding-bottom: 0.5rem;
+        }
+        .mega-submenu-section-title::after { content: ''; position: absolute; bottom: 0; left: 0; width: 30px; height: 2px; background: linear-gradient(90deg, var(--color-primary), var(--color-accent)); }
+        
+        .mega-submenu-item {
+            display: block; padding: 0.4rem 0.6rem; color: #2d3748; text-decoration: none;
+            font-size: 0.85rem; font-weight: 500; transition: all 0.2s ease;
+            position: relative; margin-bottom: 0.1rem;
+        }
+        .mega-submenu-item:hover { color: var(--color-primary); background: linear-gradient(135deg, rgba(0, 86, 179, 0.08), rgba(23, 162, 184, 0.05)); transform: translateX(4px); box-shadow: 0 2px 8px rgba(0, 86, 179, 0.1); }
+        .mega-submenu-item::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 0; height: 100%; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); transition: width 0.2s ease; }
+        .mega-submenu-item:hover::before { width: 3px; }
+        
+        .main-content { display: flex; padding: 0; margin: 0; gap: 0; justify-content: center; align-items: center; width: 100%; height: 75vh; position: relative; overflow: hidden; z-index: 1; }
+        .carousel-container { width: 100%; height: 100%; position: relative; overflow: hidden; }
+        .carousel { width: 100%; height: 100%; position: relative; overflow: hidden; }
+        
+        .carousel-slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;
+            transition: opacity 0.5s ease-in-out; display: flex; flex-direction: column;
+            justify-content: center; background-size: cover; background-position: center;
+            padding: 4rem 5%; background-blend-mode: darken; background-color: rgba(0, 0, 0, 0.4);
+        }
+        .carousel-slide.active { opacity: 1; }
+        
+        .carousel-content { max-width: 800px; width: 100%; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); padding: 2rem; border-radius: 10px; }
+        .carousel-title { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; word-wrap: break-word; }
+        .carousel-subtitle { font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; word-wrap: break-word; }
+        .carousel-btn { background: var(--color-primary); color: white; border: none; padding: 1rem 2rem; font-size: 1.1rem; font-weight: 600; border-radius: 50px; cursor: pointer; display: inline-block; text-decoration: none; transition: var(--transition); }
+        .carousel-btn:hover { background: var(--color-secondary); transform: translateY(-3px); }
+        
+        .content-wrapper { max-width: 100%; width: 100%; margin: 0 auto; padding: 0; overflow: hidden; z-index: 1; position: relative; }
+        
+        .search-section {
+            background-color: #e5e7eb; padding: 3rem 0; margin: 0; width: 100vw;
+            position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; 
+            overflow: hidden; z-index: 1; box-sizing: border-box;
+        }
+        .search-title { font-size: 2rem; font-weight: 800; color: var(--color-primary); text-align: center; margin-bottom: 1.5rem; padding: 0 5%; word-wrap: break-word; }
+        .search-bar { max-width: 800px; width: 90%; margin: 0 auto; position: relative; display: flex; align-items: center; background: white; border-radius: 50px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); padding: 0.5rem 1rem; transition: var(--transition); }
+        .search-icon { color: var(--color-secondary); margin-right: 0.5rem; flex-shrink: 0; }
+        .search-input { flex-grow: 1; border: none; font-size: 1rem; padding: 0.5rem; outline: none; width: 100%; min-width: 0; }
+        .search-link { background: var(--color-primary); color: white; text-decoration: none; padding: 0.7rem 1.5rem; border-radius: 25px; font-weight: 600; transition: var(--transition); white-space: nowrap; flex-shrink: 0; }
+        .search-link:hover { background-color: var(--color-secondary); transform: translateY(-2px); }
+        
+        .latest-news-section { display: flex; flex-direction: column; align-items: center; gap: 2rem; max-width: 100%; width: 100%; margin: 10px auto 4rem auto; padding: 0 5%; overflow: hidden; z-index: 1; position: relative; }
+        .news-cards-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; width: 100%; }
+        .news-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: var(--transition); }
+        .news-card:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+        .news-image { width: 100%; height: 200px; object-fit: cover; }
+        .news-content { padding: 1.5rem; width: 100%; }
+        .news-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--color-primary); word-wrap: break-word; }
+        .news-description { color: var(--color-text-light); margin-bottom: 1.5rem; font-weight: 400; line-height: 1.6; word-wrap: break-word; }
+        .news-link { color: var(--color-accent); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-weight: 600; transition: var(--transition); }
+        .news-link:hover { color: var(--color-primary); }
+        .section-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 2rem; color: var(--color-primary); text-align: center; word-wrap: break-word; }
+        
+        footer { background-color: #0a0f1c; color: white; padding: 4rem 5%; width: 100%; overflow: hidden; z-index: 1; position: relative; }
+        .footer-container { max-width: 1400px; width: 100%; margin: 0 auto; display: grid; grid-template-columns: repeat(6, 1fr); gap: 2rem; }
+        .footer-logo { grid-column: 1 / 2; grid-row: 1 / 2; }
+        .footer-logo img { filter: brightness(0) invert(1); max-width: 100%; height: auto; transition: var(--transition); }
+        .footer-logo img:hover { opacity: 0.8; }
+        .footer-section { display: flex; flex-direction: column; }
+        .footer-title { font-weight: 700; font-size: 1.2rem; color: #FFFFFF; margin-bottom: 1.5rem; word-wrap: break-word; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-link { color: rgba(255,255,255,0.7); text-decoration: none; font-weight: 400; font-size: 0.9rem; line-height: 2; transition: var(--transition); word-wrap: break-word; }
+        .footer-link:hover { color: white; }
+        
+        .carousel-controls { position: absolute; bottom: 20px; left: 0; width: 100%; display: flex; justify-content: center; gap: 10px; z-index: 10; }
+        .carousel-dot { width: 12px; height: 12px; background-color: rgba(255, 255, 255, 0.5); border-radius: 50%; cursor: pointer; transition: var(--transition); }
+        .carousel-dot.active { background-color: white; transform: scale(1.2); }
+        .carousel-arrows { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; }
+        .carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; background-color: rgba(0, 0, 0, 0.5); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); pointer-events: auto; }
+        .carousel-arrow:hover { background-color: rgba(0, 0, 0, 0.8); }
+        .carousel-arrow.prev { left: 20px; }
+        .carousel-arrow.next { right: 20px; }
+        
+        @media (min-width: 1400px) {
+            .main-menu { display: flex; flex-wrap: nowrap; }
+            .main-menu-item { display: flex; flex: 1; }
+            .main-menu-item > a { display: flex; flex-direction: column; padding: 1.7rem 1.3rem; min-height: 130px; }
+            .menu-title { font-size: 0.95rem; }
+            .menu-subtitle {padding-top: 5%; font-size: 0.62rem; }
+        }
+        
+        @media (max-width: 1399px) and (min-width: 1200px) {
+            .main-menu { display: flex; flex-wrap: nowrap; }
+            .main-menu-item { display: flex; flex: 1; }
+            .main-menu-item > a { display: flex; flex-direction: column; }
+            .footer-container { grid-template-columns: repeat(6, 1fr); }
+        }
+        
+        @media (max-width: 1199px) and (min-width: 1024px) {
+            .main-menu { display: flex; flex-wrap: nowrap; }
+            .main-menu-item { display: flex; flex: 1; }
+            .main-menu-item > a { display: flex; flex-direction: column; padding: 1.3rem 0.9rem; min-height: 110px; }
+            .menu-title { font-size: 0.85rem; line-height: 1.1; }
+            .menu-subtitle { font-size: 0.56rem; letter-spacing: 1px; }
+            .logo { height: 32px; }
+            .logo-container { padding: 1.2rem 4%; }
+            .main-content { height: 65vh; }
+            .news-cards-container { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+            .search-title { font-size: 1.8rem; }
+            .section-title { font-size: 2.2rem; }
+            .carousel-title { font-size: 2.5rem; }
+            .carousel-subtitle { font-size: 1.3rem; }
+            .footer-container { grid-template-columns: repeat(6, 1fr); gap: 1.5rem; }
+            .mega-submenu { width: 550px; }
+        }
+        
+        @media (max-width: 1023px) and (min-width: 768px) {
+            .main-menu { display: flex; flex-wrap: wrap; }
+            .main-menu-item { display: flex; flex: 1 1 calc(50% - 0.5rem); margin: 0.25rem; max-width: calc(50% - 0.5rem); width: calc(50% - 0.5rem); }
+            .main-menu-item > a { display: flex; flex-direction: column; padding: 1.1rem 0.8rem; min-height: 100px; }
+            .menu-title { font-size: 0.8rem; line-height: 1.1; }
+            .menu-subtitle { font-size: 0.54rem; letter-spacing: 0.8px; }
+            .logo { height: 30px; }
+            .logo-container { padding: 1rem 3%; }
+            .main-content { height: 55vh; }
+            .search-section { padding: 2.5rem 0; }
+            .search-title { font-size: 1.6rem; }
+            .section-title { font-size: 2rem; }
+            .news-cards-container { grid-template-columns: 1fr; gap: 1.5rem; }
+            .carousel-title { font-size: 2rem; }
+            .carousel-subtitle { font-size: 1.1rem; }
+            .footer-container { grid-template-columns: repeat(6, 1fr); }
+            .mega-submenu { display: none; }
+        }
+        
+        @media (max-width: 767px) {
+            .hide-on-mobile { display: none; }
+            .logo { height: 28px; }
+            .logo-container { padding: 0.8rem 3%; }
+            .main-content { height: 45vh; }
+            .main-menu { display: block; flex-direction: column; flex-wrap: nowrap; width: 100%; }
+            .main-menu-item { display: block; width: 100%; max-width: 100%; flex: none; margin: 0; }
+            .main-menu-item > a { display: block; padding: 1.1rem 1.2rem; min-height: 0; width: 100%; position: relative; flex-direction: row; }
+            .menu-title { display: block; font-size: 0.9rem; line-height: 1.2; margin-bottom: 0.8rem; width: 100%; }
+            .menu-subtitle { display: block; font-size: 0.56rem; letter-spacing: 0.8px; width: 100%; text-align: left; margin-top: 0.8rem; opacity: 0.9; }
+            .menu-title::after { bottom: -4px; left: 0; width: 100%; height: 2px; background-color: rgba(255, 255, 255, 0.4); }
+            .mega-submenu { display: none; }
+            .search-section { padding: 2rem 0; }
+            .search-title { font-size: 1.4rem; }
+            .search-bar { width: 95%; padding: 0.4rem 0.8rem; }
+            .search-input { font-size: 0.9rem; padding: 0.4rem; }
+            .search-link { padding: 0.6rem 1rem; font-size: 0.85rem; }
+            .section-title { font-size: 1.8rem; }
+            .news-cards-container { grid-template-columns: 1fr; gap: 1.2rem; }
+            .carousel-title { font-size: 1.8rem; }
+            .carousel-subtitle { font-size: 1rem; }
+            .latest-news-section { padding: 0 3%; }
+            .footer-container { grid-template-columns: 1fr; gap: 2rem; text-align: left; }
+            .footer-section { text-align: left; }
+            .footer-logo { grid-column: 1; justify-self: start; margin-bottom: 2rem; }
+            .desktop-text { display: none; }
+            .mobile-text { display: block; }
+            .mobile-space { display: none; }
+        }
+        
+        @media (max-width: 480px) {
+            .logo { height: 25px; }
+            .logo-container { padding: 0.6rem 2%; }
+            .main-content { height: 40vh; }
+            .main-menu-item > a { padding: 1rem; }
+            .menu-title { font-size: 0.85rem; margin-bottom: 0.7rem; }
+            .menu-subtitle { font-size: 0.52rem; letter-spacing: 0.5px; margin-top: 0.7rem; }
+            .search-section { padding: 1.5rem 0; }
+            .search-title { font-size: 1.2rem; }
+            .search-bar { width: 98%; padding: 0.3rem 0.6rem; flex-wrap: nowrap; }
+            .search-input { font-size: 0.8rem; padding: 0.3rem; }
+            .search-link { padding: 0.5rem 0.8rem; font-size: 0.75rem; }
+            .section-title { font-size: 1.5rem; }
+            .carousel-title { font-size: 1.5rem; }
+            .carousel-subtitle { font-size: 0.9rem; }
+            .latest-news-section { padding: 0 2%; }
+            .news-content { padding: 1rem; }
+            .news-title { font-size: 1.2rem; }
+            .footer-container { grid-template-columns: 1fr; gap: 1.5rem; }
+            .news-cards-container { grid-template-columns: 1fr; gap: 1rem; }
+        }
+        
+        @media (min-width: 768px) {
+            .main-menu-item > a { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; text-align: left; }
+            .menu-title, .menu-subtitle { text-align: left; width: 100%; }
+        }
+        
+        .mobile-normativa-text { display: none; }
+        @media (max-width: 767px) {
+            .mobile-normativa-text { display: block; }
+            .desktop-normativa-text { display: none; }
+            .mobile-space { display: inline; }
+            .menu-title { min-height: 2.2em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="https://itba-wa.vercel.app/ITBA_ITBAAlumnos_Identidad_Logos-02-1.png" alt="ITBA Logo" class="logo">
+    </div>
+    
+    <div class="main-menu-container">
+        <div class="main-menu" style="display: block; flex-flow: column;">
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Información Académica</div>
+                    <div class="menu-subtitle">MATRICULACIÓN Y EXÁMENES</div>
+                </a>
+                <div class="mega-submenu">
+                    <div class="mega-submenu-content">
+                        <div class="mega-submenu-section">
+                            <a href="#" class="mega-submenu-item">Matriculación a Materias</a>
+                            <a href="#" class="mega-submenu-item">Práctica Profesional Supervisada</a>
+                            <a href="#" class="mega-submenu-item">Seminarios de Actualización Tecnológica</a>
+                            <a href="#" class="mega-submenu-item">Exámenes Finales</a>
+                            <a href="#" class="mega-submenu-item">Validación Inglés</a>
+                            <a href="#" class="mega-submenu-item">Planes de estudio</a>
+                            <a href="#" class="mega-submenu-item">Grillas</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Trámites y<br class="hide-on-mobile"><span class="mobile-space"> </span>Servicios</div>
+                    <div class="menu-subtitle">GESTIÓN <br class="hide-on-mobile">ADMINISTRATIVA</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Bienestar y<br class="hide-on-mobile"><span class="mobile-space"> </span>Tutorías</div>
+                    <div class="menu-subtitle">APOYO <br class="hide-on-mobile">ESTUDIANTIL</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Estudiantes<br class="hide-on-mobile"><span class="mobile-space"> </span>Primer Año</div>
+                    <div class="menu-subtitle">BIENVENIDA UNIVERSITARIA</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Iniciativas<br class="hide-on-mobile"><span class="mobile-space"> </span>Estudiantiles</div>
+                    <div class="menu-subtitle">ASOCIACIONES Y ACTIVIDADES</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Movilidad<br class="hide-on-mobile"><span class="mobile-space"> </span>Internacional</div>
+                    <div class="menu-subtitle">EXPERIENCIA <br class="hide-on-mobile">GLOBAL</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Desarrollo Profesional</div>
+                    <div class="menu-subtitle">AYUDANTÍAS Y PASANTÍAS</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">Becas y<br class="hide-on-mobile"><span class="mobile-space"> </span>Préstamos</div>
+                    <div class="menu-subtitle">APOYO <br class="hide-on-mobile">FINANCIERO</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title"><br class="hide-on-mobile">Calendario</div>
+                    <div class="menu-subtitle">FECHAS <br class="hide-on-mobile">IMPORTANTES</div>
+                </a>
+            </div>
+            <div class="main-menu-item" style="display: block; width: 100%; max-width: 100%; flex: 0 0 auto; margin: 0px;">
+                <a href="#" style="display: block; flex-direction: row;">
+                    <div class="menu-title">
+                        <span class="desktop-normativa-text">Normativa<br class="hide-on-mobile">Institucional</span>
+                        <span class="mobile-normativa-text">Normativa Institucional</span>
+                    </div>
+                    <div class="menu-subtitle">
+                        <span class="desktop-normativa-text">REGLAMEN-<br class="hide-on-mobile">TACIONES</span>
+                        <span class="mobile-normativa-text">REGLAMENTACIONES</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="carousel-container">
+            <div class="carousel">
+                <div class="carousel-slide" style="background-image: url('https://www.itba.edu.ar/wp-content/uploads/2021/08/tech-trek-EI.jpg');">
+                    <div class="carousel-content"></div>
+                </div>
+                <div class="carousel-slide" style="background-image: url('https://www.itba.edu.ar/wp-content/uploads/2021/08/Oatec-scaled-1.jpg');">
+                    <div class="carousel-content"></div>
+                </div>
+                <div class="carousel-slide active" style="background-image: url('https://www.itba.edu.ar/wp-content/uploads/2025/05/Bienvenida-1ero-2023-_-274-scaled.jpg');">
+                    <div class="carousel-content"></div>
+                </div>
+            </div>
+            
+            <div class="carousel-controls">
+                <div class="carousel-dot" data-slide="0"></div>
+                <div class="carousel-dot" data-slide="1"></div>
+                <div class="carousel-dot active" data-slide="2"></div>
+            </div>
+            
+            <div class="carousel-arrows">
+                <div class="carousel-arrow prev"><i class="fas fa-chevron-left"></i></div>
+                <div class="carousel-arrow next"><i class="fas fa-chevron-right"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="search-section">
+            <h2 class="search-title">¿Que estás buscando?</h2>
+            <div class="search-bar">
+                <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" class="search-input" placeholder="">
+                <a href="#" class="search-link">Buscar</a>
+            </div>
+        </div>
+
+        <section class="latest-news-section">
+            <br><h2 class="section-title">Última información</h2>
+            <div class="news-cards-container">  
+                <article class="news-card">
+                    <img src="https://www.itba.edu.ar/wp-content/uploads/2021/08/tech-trek-EI.jpg" alt="International Experience" class="news-image">
+                    <div class="news-content">
+                        <h3 class="news-title">Lorem Ipsum Placeholder</h3>
+                        <p class="news-description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <a href="#" class="news-link">Leer más →</a>
+                    </div>
+                </article>
+                <article class="news-card">
+                    <img src="https://www.itba.edu.ar/wp-content/uploads/2024/06/Fachada-SDT-1-1-1080x675.jpg" alt="Advertising and Media" class="news-image">
+                    <div class="news-content">
+                        <h3 class="news-title">Lorem Ipsum Placeholder</h3>
+                        <p class="news-description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <a href="#" class="news-link">Leer más →</a>
+                    </div>
+                </article>
+                <article class="news-card">
+                    <img src="https://www.itba.edu.ar/wp-content/uploads/2021/07/nueva-sede-itba_jornada-06_14mayo-71-3-scaled-1.jpg" alt="New Campus" class="news-image">
+                    <div class="news-content">
+                        <h3 class="news-title">Lorem Ipsum Placeholder</h3>
+                        <p class="news-description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <a href="#" class="news-link">Leer más →</a>
+                    </div>
+                </article>
+            </div>  
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="https://www.itba.edu.ar/wp-content/uploads/2021/08/ITBA-logo3.png" alt="ITBA Logo">
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Somos ITBA</h3>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Institucional</a></li>
+                    <li><a href="#" class="footer-link">Autoridades</a></li>
+                    <li><a href="#" class="footer-link">Docentes</a></li>
+                    <li><a href="#" class="footer-link">Graduados</a></li>
+                    <li><a href="#" class="footer-link">Empleos y pasantías</a></li>
+                    <li><a href="#" class="footer-link">Experiencia ITBA</a></li>
+                    <li><a href="#" class="footer-link">Sedes</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Oferta Académica</h3>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Grado</a></li>
+                    <li><a href="#" class="footer-link">Postgrado</a></li>
+                    <li><a href="#" class="footer-link">Educación ejecutiva</a></li>
+                    <li><a href="#" class="footer-link">Doctorado</a></li>
+                    <li><a href="#" class="footer-link">Servicios Corporativos</a></li>
+                    <li><a href="#" class="footer-link">ITBA global</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Becas</h3>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Ingreso Ingenierías</a></li>
+                    <li><a href="#" class="footer-link">Ingreso Licenciaturas</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Investigación y desarrollo</h3>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Extensión</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Campus</h3>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Intranet</a></li>
+                    <li><a href="#" class="footer-link">Biblioteca</a></li>
+                    <li><a href="#" class="footer-link">Noticias</a></li>
+                    <li><a href="#" class="footer-link">Trabajá con nosotros</a></li>
+                    <li><a href="#" class="footer-link">Portal de Compras</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const slides = document.querySelectorAll('.carousel-slide, .carousel-video-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        const prevBtn = document.querySelector('.carousel-arrow.prev');
+        const nextBtn = document.querySelector('.carousel-arrow.next');
+        let currentIndex = 0;
+        let slideInterval = setInterval(nextSlide, 5000);
+    
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                const isActive = i === index;
+                slide.classList.toggle('active', isActive);
+                const video = slide.querySelector('video');
+                if (video) {
+                    if (isActive) {
+                        video.currentTime = 0;
+                        video.play();
+                        if (!video.hasAttribute('data-listener-added')) {
+                            video.addEventListener('ended', () => { nextSlide(); });
+                            video.setAttribute('data-listener-added', 'true');
+                        }
+                    } else {
+                        video.pause();
+                    }
+                }
+            });
+            dots.forEach((dot, i) => { dot.classList.toggle('active', i === index); });
+            currentIndex = index;
+        }
+    
+        function nextSlide() {
+            let nextIndex = (currentIndex + 1) % slides.length;
+            showSlide(nextIndex);
+        }
+    
+        function prevSlide() {
+            let prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+            showSlide(prevIndex);
+        }
+    
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                clearInterval(slideInterval);
+                showSlide(index);
+                slideInterval = setInterval(nextSlide, 5000);
+            });
+        });
+    
+        nextBtn.addEventListener('click', () => {
+            clearInterval(slideInterval);
+            nextSlide();
+            slideInterval = setInterval(nextSlide, 5000);
+        });
+    
+        prevBtn.addEventListener('click', () => {
+            clearInterval(slideInterval);
+            prevSlide();
+            slideInterval = setInterval(nextSlide, 5000);
+        });
+
+        function resetMenuStyles() {
+            const menu = document.querySelector('.main-menu');
+            const menuItems = document.querySelectorAll('.main-menu-item');
+            const menuLinks = document.querySelectorAll('.main-menu-item > a');
+            
+            if (window.innerWidth <= 767) {
+                menu.style.display = 'block';
+                menu.style.flexDirection = 'column';
+                menu.style.flexWrap = 'nowrap';
+                menuItems.forEach(item => {
+                    item.style.display = 'block';
+                    item.style.width = '100%';
+                    item.style.maxWidth = '100%';
+                    item.style.flex = 'none';
+                    item.style.margin = '0';
+                });
+                menuLinks.forEach(link => {
+                    link.style.display = 'block';
+                    link.style.flexDirection = 'row';
+                });
+            } else {
+                menu.style.display = 'flex';
+                menu.style.flexDirection = 'row';
+                menu.style.flexWrap = 'nowrap';
+                menuItems.forEach(item => {
+                    item.style.display = 'flex';
+                    item.style.width = 'auto';
+                    item.style.maxWidth = 'none';
+                    item.style.flex = '1';
+                    item.style.margin = '0';
+                });
+                menuLinks.forEach(link => {
+                    link.style.display = 'flex';
+                    link.style.flexDirection = 'column';
+                });
+            }
+        }
+
+        window.addEventListener('load', () => {
+            resetMenuStyles();
+            setTimeout(resetMenuStyles, 100);
+        });
+        window.addEventListener('resize', () => {
+            resetMenuStyles();
+            setTimeout(resetMenuStyles, 100);
+        });
+        resetMenuStyles();
+        setInterval(resetMenuStyles, 1000);
+    </script>
+
+
+</body>
+</html>
